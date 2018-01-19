@@ -1,12 +1,11 @@
 angular
   .module('UserApp')
-  .factory('PostsService', function ($http) {
-    return {
-      getPosts: function () {
-        return $http.get('https://jsonplaceholder.typicode.com/posts')
+  .factory('PostsService',
+   ($resource) => {
+     return $resource('https://jsonplaceholder.typicode.com/posts:postId',
+      {
+        postId: '@postId'
       }
-
-    }
-  }
-
-)
+    );
+   }
+  );

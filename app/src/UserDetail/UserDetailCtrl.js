@@ -1,7 +1,8 @@
 'use strict'
 
-userApp.controller('UserDetailCtrl', function ($scope, $routeParams, UsersService) {
-  $scope.userLoaded = false
+userApp.controller('UserDetailCtrl', function ($scope, $routeParams, UsersService, PostsService) {
+  $scope.userLoaded = false;
+  $scope.postsLoaded = false;
 
   $scope.user = UsersService.get({
     userId: $routeParams['userId']
@@ -31,4 +32,15 @@ userApp.controller('UserDetailCtrl', function ($scope, $routeParams, UsersServic
       $scope.deletionError = true
     })
   }
-})
+
+  $scope.posts = PostsService.query({
+    postId: $routeParams['postId']
+  }, (success) => {
+    $scope.noPostsError = false;
+    $scope.postsLoaded = true;
+  }, (error) => {
+    $scope.noPostsError = true
+    $scope.postsLoaded = true;
+  });
+});
+
